@@ -17,8 +17,8 @@ public class ConnectionManager {
         try {
             conn = DriverManager.getConnection(URL_DB + DB, user, pass);
         } catch (SQLException sqlEx) {
-            System.out.println("No se ha podido conectar a " + URL_DB + DB + ". " + sqlEx.getMessage());
-            System.out.println("Error al cargar el driver");
+            throw new RuntimeException("No se ha podido conectar a " + URL_DB + DB + ". " + sqlEx.getMessage());
+
         }
     }
 
@@ -28,7 +28,7 @@ public class ConnectionManager {
                 conn.close();
                 conn = null;
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new RuntimeException("Error al cerrar la conexión con la base de datos" + e.getMessage());
             }
         }
     }
