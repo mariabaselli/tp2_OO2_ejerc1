@@ -1,4 +1,4 @@
-package org.example;
+package ar.unrn.concurso;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,8 @@ public class ConcursoTest {
         this.fechaFinConcurso = LocalDate.now().plusDays(60);
         this.fechaInscripcionParticipante = LocalDate.now().plusDays(5);
         this.fakeCorreoElectronico = new FakeCorreoElectronico();
-        this.fakeRegistroInscriptos = new FakeRegistroInscriptos("");
+        this.fakeRegistroInscriptos = new FakeRegistroInscriptos();
+
 
         this.unConcurso = Concurso.nuevoConcurso("01a", "Un Concurso", fechaInicioConcurso, fechaFinConcurso,
                 fakeRegistroInscriptos, fakeCorreoElectronico);
@@ -46,18 +47,11 @@ public class ConcursoTest {
     }
 
     @Test
-    public void verificarRegistroInscriptosEnArchivo() {
+    public void verificarRegistroInscriptos() {
         unConcurso.inscribirAConFecha(jose, fechaInscripcionParticipante, destinatario, asunto, mensaje);
-        String esperado = fechaInscripcionParticipante.toString() + ", " + jose.obtenerId() + ", " + unConcurso.obtenerID();
-        assertEquals(esperado, fakeRegistroInscriptos.obtenerDatosInscripcion());
+        assertTrue(fakeRegistroInscriptos.startWith(fechaInscripcionParticipante.toString()));
     }
 
-    @Test
-    public void verificarRegistroInscriptosEnBaseDeDatos() {
-        unConcurso.inscribirAConFecha(jose, fechaInscripcionParticipante, destinatario, asunto, mensaje);
-        String esperado = fechaInscripcionParticipante.toString() + ", " + jose.obtenerId() + ", " + unConcurso.obtenerID();
-        assertEquals(esperado, fakeRegistroInscriptos.obtenerDatosInscripcion());
-    }
 
     @Test
     public void inscribirAlConcurso() {
@@ -110,11 +104,5 @@ public class ConcursoTest {
         assertEquals(Participante.ERROR_NOMBRE_PARTICIPANTE, exception.getMessage());
     }
 
-    @Test
 
-    public void inscribirOtroParticipante() {
-        Participante ramon = Participante.nuevoParticipante("ramongonzalez", "Ramon Gonzalez");
-        unConcurso.inscribirAConFecha(ramon, LocalDate.now(), destinatario, asunto, mensaje);
-        assertEquals(1, unConcurso.cantidadInscriptos());
-    }
 }

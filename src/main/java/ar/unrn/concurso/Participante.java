@@ -1,4 +1,4 @@
-package org.example;
+package ar.unrn.concurso;
 
 import java.util.Objects;
 

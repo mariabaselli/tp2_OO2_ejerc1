@@ -1,4 +1,4 @@
-package org.example;
+package ar.unrn.concurso;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -98,9 +98,6 @@ public class Concurso {
         return (fechaInicioInscripcion.equals(fechaInscripcionParticipante));
     }
 
-    public String obtenerID() {
-        return this.idConcurso;
-    }
 }
 
 
